@@ -1,8 +1,7 @@
 function authenticateLoggedUser(req, res, next) {
     if (!req.user) {
         res.status(401);
-        res.redirect("/login");
-        res.end();
+        return res.redirect("/login");
     }
 
     next();
@@ -11,8 +10,7 @@ function authenticateLoggedUser(req, res, next) {
 function authenticateNotLoggedUser(req, res, next) {
     if (req.user) {
         res.status(200);
-        res.redirect("/home");
-        res.end();
+        return res.redirect("/");
     }
 
     next();
