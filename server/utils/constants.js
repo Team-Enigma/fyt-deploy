@@ -71,7 +71,8 @@ const contact = { enums: { statusTypes: ["Not Processed", "In Process", "Process
 const errorMessages = {
     default: "Problem occured.",
     user: "Invalid username or password.",
-    userEmail: "A user with this email already exists."
+    userEmail: "A user with this email already exists.",
+    ride: "There are no available seats left for this ride."
 };
 
 const successfulMessages = {
