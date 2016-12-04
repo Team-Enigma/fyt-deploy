@@ -1,0 +1,72 @@
+extends ../base
+
+block app-title
+        | Price calculation
+
+block content
+    .row.home-section
+        .col-xs-12.col-md-6.matchheight
+            .col-inner
+                #calculate-price-form.form-horizontal.form-container
+                    fieldset
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-distance") Distance
+                            .col-lg-8
+                                input.form-control(type="text", id="tb-distance", name="distance", placeholder="Distance in kilometers", value=distance)
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-consumption") Consumption
+                            .col-lg-8
+                                input.form-control(type="text", id="tb-consumption", name="consumption", placeholder="Litres per 100 km (e.g. 6/100)", value=consumption)
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-fuel-type") Fuel type
+                            .col-lg-8
+                                select.form-control(id="tb-fuel-type" name="fuelType")
+                                    if(fuelType == "CNG")
+                                        option(selected)     CNG
+                                    else
+                                        option CNG
+                                    if(fuelType == "Diesel")
+                                        option(selected) Diesel
+                                    else
+                                        option Diesel
+                                    if(fuelType == "Diesel Premium")
+                                        option(selected) Diesel Premium
+                                    else
+                                        option Diesel Premium
+                                    if(fuelType == "Unleaded 95")
+                                        option(selected) Unleaded 95
+                                    else
+                                        option Unleaded 95
+                                    if(fuelType == "Unleaded 98")
+                                        option(selected) Unleaded 98
+                                    else
+                                        option Unleaded 98
+                                    if(fuelType == "LPG")
+                                        option(selected) LPG
+                                    else
+                                        option LPG
+                        .form-group
+                            .col-lg-8.col-lg-offset-4
+                                input.btn.btn-sm.btn-primary.btn-lg.btn-block(type="submit", id="tb-calculate-price" value="Calculate")
+                if(sum)
+                    hr
+                    row
+                        .col-md-4.font-smlg.bold.text-center Total Amount
+                        .col-md-8.font-smlg.text-center #{sum} BGN
+                    row
+                        .col-md-8.col-md-offset-4.text-center.font-xs ( Current price for #{fuelType} is #{fuelPrice} BGN/l )
+        .col-xs-12.col-md-6.matchheight.right-section
+            .col-inner
+                .col-xs-8.col-xs-offset-2
+                    img.img-responsive.img-add-ride(src="/images/calculate-picture.png")
+
+    script(src="/scripts/utils/requester.js")
+    script(src="/scripts/utils/notificator.js")
+    script(src="/scripts/utils/constants.js")
+    script(src="/scripts/utils/validator.js")
+    script(src="/scripts/fuel/calculate-price-ajax.js")
+
+    script(type="text/javascript").
+        jQuery(function($){
+        $(".matchheight").matchHeight({byRow: false});
+        });

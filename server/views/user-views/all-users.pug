@@ -1,0 +1,116 @@
+extends ../base
+
+block app-title
+        | Users
+
+block content
+    div.all-users-container
+        .row
+            #users-filter-form.form.form-horizontal.form-container
+                fieldset
+                        .form-group
+                            .col-xs-12.col-sm-3
+                                input.form-control(type="text", id="tb-username", name="username", placeholder="Username", value=username)
+                            .col-xs-12.col-sm-3
+                                input.btn.btn-success.btn-special(type="submit", id="tb-search-user" value="Search")
+        .row.users-result
+            each user in users
+                .col.sm-12.col-md-6
+                    .user-container
+                        .row.main-row
+                            .col-xs-4.matchheight
+                                img.avatar-image(src=`/images/users-avatars/${user.avatar}` alt="No image!")
+                            .col-xs-8.matchheight.bot-vert-align
+                                div
+                                    .row
+                                        a(href=`/users/${user.username}`)
+                                            h1.profile-username #{user.username}
+                                    .row
+                                        h2.profile-names #{user.firstName} #{user.lastName}
+        div.paging-form-inputs
+            .row
+                .col-lg-3.matchheight
+                    label.control-label(for="sel-page-size") Size:
+                    select.form-control.paging-select(id="sel-page-size" name="size")
+                        if(length == 0)
+                            option 8
+                        else
+                            -for (let i = 8; i <= length ; i += 8) {
+                                option #{i}
+                            -}
+                .col-lg-3.matchheight
+                    label.control-label(for="sel-selected-page") Page:
+                    select.form-control.paging-select(id="sel-selected-page" name="page")
+                        if(pagesCount == 0)
+                            option 1
+                        else
+                            -for (let i = 1; i <= pagesCount; i++) {
+                                option #{i}
+                            -}
+
+    script(src="/scripts/user/users-search-ajax.js")
+
+    script(type="text/javascript").
+                window.onload = (function () {
+                    let pageSizeOptions = $("#sel-page-size").find("option");
+                    let pagesOptions = $("#sel-selected-page").find("option"),
+                        foundPageSize = false,
+                        foundCurrentPage = false;
+
+                    for(let i = 0; i < pageSizeOptions.length; i++) {
+                        if (parseInt(pageSizeOptions[i].text) === #{pageSize}) {
+                            foundPageSize = true;
+                            $(pageSizeOptions[i]).attr("selected", "selected");
+                            break;
+                        }
+                    }
+
+                    for(let i = 0; i < pagesOptions.length; i++) {
+                        if (parseInt(pagesOptions[i].text) === #{currentPage}) {
+                            foundCurrentPage = true;
+                            $(pagesOptions[i]).attr("selected", "selected");
+                            break;
+                        }
+                    }
+
+                    if (!foundPageSize || !foundCurrentPage) {
+                        if (!foundPageSize) {
+                            $(pageSizeOptions[0]).attr("selected", "selected");
+                        }
+
+                        if (!foundCurrentPage) {
+                            $(pagesOptions[pagesOptions.length-1]).attr("selected", "selected");
+                        }
+
+                        $("#tb-search-user").trigger("click");
+
+                    }
+                }());
+
+    script(type="text/javascript").
+        jQuery(function($){
+        $("#sel-page-size").on("change", function (ev) {
+            let tabs = $(ev.target).find("option");
+            for(let i = 0; i < tabs.length; i++) {
+                if (tabs[i].selected === true) {
+                    size = tabs[i].innerText;
+                }
+            }
+
+            $("#tb-search-user").trigger("click");
+        });
+        });
+
+    script(type="text/javascript").
+        jQuery(function($){
+        $("#sel-selected-page").on("change", function (ev) {
+            let tabs = $(ev.target).find("option");
+            for(let i = 0; i < tabs.length; i++) {
+                if (tabs[i].selected === true) {
+                    size = tabs[i].innerText;
+                }
+            }
+
+            $("#tb-search-user").trigger("click");
+        });
+        });

@@ -1,0 +1,21 @@
+extends ../base
+
+block app-title
+        | Not found
+
+block content
+    .row.error-section
+        .col-xs-12.col-md-6.matchheight.left-section
+            .col-inner
+                .section-heading.text-center
+                    h1.error-title 404 Not Found
+                    h3 Whoops ! Seems like something broke.
+        .col-xs-12.col-md-6.matchheight.right-section
+            .col-inner.clearfix
+                .col-xs-8.col-xs-offset-2
+                    img.img-responsive.img-home(src="/images/error-picture.png")
+
+    script(type="text/javascript").
+        jQuery(function($){
+        $(".matchheight").matchHeight({byRow: false});
+        });

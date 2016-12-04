@@ -1,0 +1,149 @@
+extends ../base
+
+block app-title
+        | Rides
+
+block content
+    div.all-rides-container
+        .row
+            #rides-filter-form.form.form-horizontal.rides-search
+                fieldset
+                    .col-lg-3.matchheight
+                        label.control-label(for="tb-from-city") From city:
+                        input.form-control(id="tb-from-city", type="text", name="fromCity" value=fromCity)
+                    .col-lg-3.matchheight
+                        label.control-label(for="tb-to-city") To city:
+                        input.form-control(id="tb-to-city", type="text", name="toCity" value=toCity)
+                    .col-lg-2.matchheight
+                        label.control-label(for="tb-start-date") From date
+                        #startdatepicker.input-group.date
+                                input.form-control(id="tb-start-date", type="text", name="startDate" value=startDate)
+                                span.input-group-addon
+                                    span.glyphicon.glyphicon-calendar
+                    .col-lg-2.matchheight
+                        label.control-label(for="tb-end-date") To date:
+                        #enddatepicker.input-group.date
+                                input.form-control(id="tb-end-date", type="text", name="endDate" value=endDate)
+                                span.input-group-addon
+                                    span.glyphicon.glyphicon-calendar
+                    .col-lg-2.matchheight.bot-vert-align
+                        input.btn.btn-success.btn-special(id="tb-search-ride", type="submit", value="Search")
+            div(id="all-rides")
+                each ride in rides
+                    .row.ride-container
+                        .col-lg-12
+                            .row.main-row
+                                .col-lg-4.font-lg
+                                    span #{ride.fromCity}
+                                .col-lg-1.font-lg
+                                    span.glyphicon.glyphicon-chevron-right
+                                .col-lg-4.font-lg
+                                    span #{ride.toCity}
+                                .col-lg-3.font-lg
+                                    span #{moment(ride.dateOfTravel).format("lll")}
+                            hr
+                            .row.secondary-row
+                                .col-lg-5.font-md
+                                    span Available seats:
+                                    span  #{ride.freePlaces}
+                                .col-lg-4.font-md
+                                    span Price:
+                                    span  #{ride.price}
+                                .col-lg-3.font-md
+                                    a(href=`/rides/${ride.id}`) Details
+        div.paging-form-inputs
+            .row
+                .col-lg-3.matchheight
+                    label.control-label(for="sel-page-size") Size:
+                    select.form-control.paging-select(id="sel-page-size" name="size")
+                        if(length == 0)
+                            option 5
+                        else
+                            -for (let i = 5; i <= length ; i += 5) {
+                                option #{i}
+                            -}
+                .col-lg-3.matchheight
+                    label.control-label(for="sel-selected-page") Page:
+                    select.form-control.paging-select(id="sel-selected-page" name="page")
+                        if(pagesCount == 0)
+                            option 1
+                        else
+                            -for (let i = 1; i <= pagesCount; i++) {
+                                option #{i}
+                            -}
+
+    script(src="/scripts/rides/rides-search-ajax.js")
+
+    script(type="text/javascript").
+            window.onload = (function () {
+                let pageSizeOptions = $("#sel-page-size").find("option");
+                let pagesOptions = $("#sel-selected-page").find("option"),
+                    foundPageSize = false,
+                    foundCurrentPage = false;
+
+                for(let i = 0; i < pageSizeOptions.length; i++) {
+                    if (parseInt(pageSizeOptions[i].text) === #{pageSize}) {
+                        foundPageSize = true;
+                        $(pageSizeOptions[i]).attr("selected", "selected");
+                        break;
+                    }
+                }
+
+                for(let i = 0; i < pagesOptions.length; i++) {
+                    if (parseInt(pagesOptions[i].text) === #{currentPage}) {
+                        foundCurrentPage = true;
+                        $(pagesOptions[i]).attr("selected", "selected");
+                        break;
+                    }
+                }
+
+                if (!foundPageSize || !foundCurrentPage) {
+                    if (!foundPageSize) {
+                        $(pageSizeOptions[0]).attr("selected", "selected");
+                    }
+
+                    if (!foundCurrentPage) {
+                        $(pagesOptions[pagesOptions.length-1]).attr("selected", "selected");
+                    }
+                    $("#tb-search-ride").trigger("click");
+                }
+            }());
+
+    script(type="text/javascript").
+            $(function () {
+            $("#startdatepicker").datetimepicker();
+            $("#enddatepicker").datetimepicker();
+            });
+
+    script(type="text/javascript").
+        jQuery(function($){
+        $(".matchheight").matchHeight({byRow: false});
+        });
+
+    script(type="text/javascript").
+        jQuery(function($){
+        $("#sel-page-size").on("change", function (ev) {
+            let tabs = $(ev.target).find("option");
+            for(let i = 0; i < tabs.length; i++) {
+                if (tabs[i].selected === true) {
+                    size = tabs[i].innerText;
+                }
+            }
+
+            $("#tb-search-ride").trigger("click");
+        });
+        });
+
+    script(type="text/javascript").
+        jQuery(function($){
+        $("#sel-selected-page").on("change", function (ev) {
+            let tabs = $(ev.target).find("option");
+            for(let i = 0; i < tabs.length; i++) {
+                if (tabs[i].selected === true) {
+                    size = tabs[i].innerText;
+                }
+            }
+
+            $("#tb-search-ride").trigger("click");
+        });
+        });

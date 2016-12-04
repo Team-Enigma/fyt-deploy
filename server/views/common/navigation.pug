@@ -1,0 +1,42 @@
+nav.navbar.navbar-inverse.navbar-fixed-top
+    .container
+        .navbar-header
+            a.navbar-brand(href="/home")
+                img.nav-logo(src="/images/logo.png")
+            button.navbar-toggle(type="button", data-toggle="collapse", data-target="#navbar-main")
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+        #navbar-main.navbar-collapse.collapse
+            ul.nav.navbar-nav
+                li
+                    a(href="/home") Home
+                li
+                    a(href="/rides") Rides
+                li
+                    a(href="/users") Users
+                if(currentUser)
+                    li.dropdown
+                        a#services.dropdown-toggle(data-toggle="dropdown", href="#")
+                            | Services
+                            span.caret
+                        ul.dropdown-menu(aria-labelledby="services")
+                            li
+                                a(href="/rides/add") Add Ride
+                            li
+                                a(href="/calculate-price") Calculate Ride Price
+                if(currentUser && currentUser.role == "Admin")
+                    li
+                        a(href="/admin") Admin
+
+            ul.nav.navbar-nav.navbar-right
+                li
+                    a(href="/contact") Contact us
+                if(currentUser)
+                    li
+                        a(href="/profile") #{currentUser.username}'s Profile
+                    li
+                        a(href="/logout") Logout
+                else
+                    li
+                        a(href="/login") Login

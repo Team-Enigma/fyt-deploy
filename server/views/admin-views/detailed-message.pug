@@ -1,0 +1,53 @@
+extends ../base
+
+block app-title
+        | Message details
+
+block content
+    div.ride-detailed-container
+        .row
+            .col-lg-12
+                .row
+                    .col-lg-5.font-lg
+                        span #{message.name} (#{message.address})
+                    .col-lg-4.font-lg
+                        span #{message.title}
+                    .col-lg-3.font-lg.text-center
+                        span #{moment(message.sendOn).format("lll")}
+                hr
+                .row
+                    .col-lg-9.font-md
+                        span #{message.content}
+                hr
+                #message.form-horizontal.form-container
+                    .col-md-3.col-sm-4.font-md
+                        if(message.processedBy != "Not processed")
+                            span Processed by: #{message.processedBy}
+                    label.col-md-6.col-sm-4.control-label(for="tb-message-status") Status
+                    .col-md-3.col-sm-4
+                        input.hidden(type="text", id="tb-hidden-message-id" name="messageId" value=`${message.id}`)
+                        select.form-control(id="tb-message-status", name="option")
+                            if(message.status == "Not Processed")
+                                option(selected) Not Processed
+                            else
+                                option(selected) Not Processed
+                            if(message.status == "In Process")
+                                option(selected) In Process
+                            else
+                                option In Process
+                            if(message.status == "Processed")
+                                option(selected) Processed
+                            else
+                                option Processed
+                        input.hidden(type="submit" id="tb-update-message")
+
+    script(src="/scripts/utils/requester.js")
+    script(src="/scripts/utils/notificator.js")
+    script(src="/scripts/admin/change-message-status-ajax.js")
+
+    script(type="text/javascript").
+        jQuery(function($){
+        $("#tb-message-status").change(function() {
+                $("#tb-update-message").trigger("click");
+            });
+        });

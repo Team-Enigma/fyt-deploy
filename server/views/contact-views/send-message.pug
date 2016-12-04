@@ -1,0 +1,44 @@
+extends ../base
+
+block app-title
+        | Contact
+
+block content
+    .row.contact-section
+        .col-xs-12.col-md-6.matchheight.left-section
+            #contact-form.form.form-horizontal.form-container
+                    fieldset
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-name") Name
+                            .col-lg-8
+                                input.form-control(type="text", id="tb-name", name="name", placeholder="Name", value=name)
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-address") Address for feedback
+                            .col-lg-8
+                                input.form-control(type="text", id="tb-address", name="address", placeholder="Address", value=address)
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-title") Title
+                            .col-lg-8
+                                input.form-control(type="text", id="tb-title", name="title", placeholder="Title", value=title)
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-content") Content
+                            .col-lg-8
+                                textarea.form-control(rows="8", id="tb-content", name="content", placeholder="Content", value="content")
+                        .form-group
+                            .col-lg-8.col-lg-offset-4
+                                input.btn.btn-sm.btn-primary.btn-lg.btn-block(type="submit", id="tb-send", value="Send")
+        .col-xs-12.col-md-6.matchheight.right-section
+            .col-inner
+                .col-xs-8.col-xs-offset-2
+                    img.img-responsive.img-add-ride(src="/images/contact-picture.png")
+
+    script(src="/scripts/utils/requester.js")
+    script(src="/scripts/utils/notificator.js")
+    script(src="/scripts/utils/constants.js")
+    script(src="/scripts/utils/validator.js")
+    script(src="/scripts/contact/contact-ajax.js")
+
+    script(type="text/javascript").
+        jQuery(function($){
+        $(".matchheight").matchHeight({byRow: false});
+        });

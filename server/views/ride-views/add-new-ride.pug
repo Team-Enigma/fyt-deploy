@@ -1,0 +1,70 @@
+extends ../base
+
+block app-title
+        | Ride addition
+
+block content
+    .row.home-section
+        .col-xs-12.col-md-6.matchheight
+            .col-inner
+                #add-ride-form.form.form-horizontal.form-container
+                    fieldset
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-from-city") From City
+                            .col-lg-8
+                                input.form-control(type="text", id="tb-from-city", name="fromCity", placeholder="City name", value=fromCity)
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-to-city") To City
+                            .col-lg-8
+                                input.form-control(type="text", id="tb-to-city", name="toCity", placeholder="City name", value=toCity)
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-date-of-travel") Date
+                            .col-lg-8
+                                #datetimepicker1.input-group.date
+                                    input.form-control(type="text" id="tb-date-of-travel" name="dateOfTravel", placeholder="Date" value=dateOfTravel)
+                                    span.input-group-addon
+                                        span.glyphicon.glyphicon-calendar
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-free-seats") Seats
+                            .col-lg-8
+                                select.form-control(id="tb-free-seats" name="freePlaces")
+                                    option 1
+                                    option 2
+                                    option 3
+                                    option 4
+                                    option 5
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-price") Price
+                            .col-lg-8
+                                input.form-control(type="text", id="tb-price", name="price", placeholder="Price", value=price)
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-contact-info") Contact information
+                            .col-lg-8
+                                textarea.form-control(rows="2", id="tb-contact-info", name="contact", placeholder="Contact information", value="contact")
+                        .form-group
+                            label.col-lg-4.control-label(for="tb-more-info") Additional information
+                            .col-lg-8
+                                textarea.form-control(rows="4", id="tb-more-info", name="remarks", placeholder="Additional information", value="remarks")
+                        .form-group
+                            .col-lg-8.col-lg-offset-4
+                                input.btn.btn-sm.btn-primary.btn-lg.btn-block(type="submit", id="tb-add-ride" value="Add ride")
+        .col-xs-12.col-md-6.matchheight.right-section
+            .col-inner
+                .col-xs-8.col-xs-offset-2
+                    img.img-responsive.img-add-ride(src="/images/add-ride-picture.png")
+
+    script(src="/scripts/utils/requester.js")
+    script(src="/scripts/utils/notificator.js")
+    script(src="/scripts/utils/constants.js")
+    script(src="/scripts/utils/validator.js")
+    script(src="/scripts/rides/add-ride-ajax.js")
+
+    script(type="text/javascript").
+        $(function () {
+        $("#datetimepicker1").datetimepicker();
+        });
+
+    script(type="text/javascript").
+        jQuery(function($){
+        $(".matchheight").matchHeight({byRow: false});
+        });

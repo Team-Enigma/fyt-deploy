@@ -1,0 +1,29 @@
+extends ../base
+
+block app-title
+    | Login
+
+block content
+    .row
+        .col-lg-6.col-lg-offset-3.col-md-6.col-md-offset-3.col-sm-offset-2.col-sm-8.col-xs-10.col-xs-offset-1
+            #login-form.form.form-horizontal.form-container
+                fieldset
+                    .form-group
+                        label.col-lg-4.control-label(for="tb-username") Username
+                        .col-lg-8
+                            input.form-control(type="text", id="tb-username", name="username", placeholder="Username", value=username)
+                    .form-group
+                        label.col-lg-4.control-label(for="tb-password") Password
+                        .col-lg-8
+                            input.form-control(type="password", id="tb-password", name="password", placeholder="Password", value=password)
+                    .form-group
+                        .col-lg-8.col-lg-offset-4
+                            input.btn.btn-sm.btn-primary.btn-lg.btn-block(type="submit", id="tb-login" value="Login")
+                    .col-lg-12.text-center
+                        a(href="/register") Don't have an account? Register now.
+
+    script(src="/scripts/utils/requester.js")
+    script(src="/scripts/utils/notificator.js")
+    script(src="/scripts/utils/constants.js")
+    script(src="/scripts/utils/validator.js")
+    script(src="/scripts/user/login-ajax.js")

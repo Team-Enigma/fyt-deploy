@@ -1,0 +1,248 @@
+extends ../base
+
+block app-title
+    | Profile
+
+block content
+    div.user-detailed-container
+        .row
+            .col-lg-12
+                .row.main-row
+                    .col-md-2.matchheight-title
+                        img.avatar-image(src=`/images/users-avatars/${currentUser.avatar}` alt="No image!")
+                    .col-md-10.matchheight-title.bot-vert-align
+                        div
+                            .row
+                                h1.profile-username #{currentUser.username}
+                            .row
+                                h2.profile-names #{currentUser.firstName} #{currentUser.lastName}
+                hr
+        .row
+            .col-lg-3
+                ul.nav.nav-pills.nav-stacked
+                    li.active
+                        a(href="#profile" data-toggle="pill", aria-expanded="true") Profile
+                    li
+                        a(href="#rides" data-toggle="pill", aria-expanded="true") Rides
+                    li
+                        a(href="#update-profile-picture" data-toggle="pill", aria-expanded="false") Update profile picture
+                    li
+                        a(href="#update-profile" data-toggle="pill", aria-expanded="false") Update profile
+                    li
+                        a(href="#update-password" data-toggle="pill", aria-expanded="false") Update password
+                    li
+                        a(href="#update-car" data-toggle="pill", aria-expanded="false") Update car
+            .col-lg-9
+                #my-tab-content.tab-content
+                    #profile.tab-pane.fade.active.in
+                        #profile-info.matcheight
+                            ul(id="car-info")
+                                .row
+                                    li.col-lg-3.font-md.bold First Name
+                                    span.col-lg-2.font-md #{currentUser.firstName}
+                                .row
+                                    li.col-lg-3.font-md.bold Last Name:
+                                    span.col-lg-2.font-md #{currentUser.lastName}
+                                .row
+                                    li.col-lg-3.font-md.bold Email address:
+                                    span.col-lg-2.font-md #{currentUser.email}
+                                .row
+                                    li.col-lg-3.font-md.bold City:
+                                    span.col-lg-2.font-md #{currentUser.city}
+                                .row
+                                    li.col-lg-3.font-md.bold Contact information:
+                                    span.col-lg-2.font-md #{currentUser.contact}
+                                hr
+                                .row
+                                    li.col-lg-3.font-md.bold Manufacturer:
+                                    span.col-lg-2.font-md #{currentUser.car.manufacturer}
+                                .row
+                                    li.col-lg-3.font-md.bold Model:
+                                    span.col-lg-2.font-md #{currentUser.car.model}
+                                .row
+                                    li.col-lg-3.font-md.bold Reg. number:
+                                    span.col-lg-2.font-md #{currentUser.car.registrationNumber}
+                                .row
+                                    li.col-lg-3.font-md.bold Seats:
+                                    span.col-lg-2.font-md #{currentUser.car.seats}
+                                .row
+                                    li.col-lg-3.font-md.bold Fuel:
+                                    span.col-lg-2.font-md #{currentUser.car.fuel}
+                                .row
+                                    li.col-lg-3.font-md.bold Transmission:
+                                    span.col-lg-2.font-md #{currentUser.car.transmission}
+                    #rides.tab-pane.fade
+                        .matchheight
+                            if rides.length > 0
+                            each ride in rides
+                                .row.ride-container
+                                        .col-lg-12
+                                            .row.main-row
+                                                .col-lg-3.font-smlg
+                                                        span #{ride.fromCity}
+                                                .col-lg-1.font-md
+                                                        span.glyphicon.glyphicon-chevron-right
+                                                .col-lg-3.font-smlg
+                                                        span #{ride.toCity}
+                                                .col-lg-4.font-smlg
+                                                        span #{moment(ride.dateOfTravel).format("lll")}
+                                                .col-lg-1
+                                                    #delete-form
+                                                        input.hidden(type="text" name="rideId" value=`${ride.id}`)
+                                                        button.btn.btn-danger.btn-xs.delete-ride(type="submit")
+                                                            span.font-xs.glyphicon.glyphicon-remove
+                                            hr
+                                            .row.secondary-row
+                                                .col-lg-4.font-md
+                                                        span Available seats:
+                                                        span  #{ride.freePlaces}
+                                                .col-lg-3.font-md
+                                                        span Price:
+                                                        span  #{ride.price}
+                                                .col-lg-2.font-md
+                                                        a(href=`/rides/${ride.id}`) Details
+
+                            else
+                                p.font-md This user has no rides
+                    #update-profile.tab-pane.fade
+                        .matchheight
+                            #update-profile-form.form-horizontal
+                                fieldset
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-first-name") First Name
+                                        .col-sm-4
+                                            input.form-control(type="text", id="tb-first-name", name="firstName", value=`${currentUser.firstName}`)
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-last-name") Last Name
+                                        .col-sm-4
+                                            input.form-control(type="text", id="tb-last-name", name="lastName", value=`${currentUser.lastName}`)
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-email") Email
+                                        .col-sm-4
+                                            input.form-control(type="text", id="tb-email", name="email", value=`${currentUser.email}`)
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-city") City
+                                        .col-sm-4
+                                            input.form-control(type="text", id="tb-city", name="city", value=`${currentUser.city}`)
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-contact") Contact information
+                                        .col-sm-4
+                                            input.form-control(type="text", id="tb-contact", name="contact", value=`${currentUser.contact}`)
+                                    .form-group
+                                        .col-sm-4.col-sm-offset-3
+                                            input.btn.btn-block.btn-primary(type="submit", id="tb-update-profile" value="Update")
+                    #update-password.tab-pane.fade
+                        .matchheight
+                            #update-password-form.form-horizontal
+                                fieldset
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-password") Password
+                                        .col-sm-4
+                                            input.form-control(type="password", id="tb-password", name="oldPassword")
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-new-password") New password
+                                        .col-sm-4
+                                            input.form-control(type="password", id="tb-new-password", name="newPassword")
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-new-password-confirm") Confirm password
+                                        .col-sm-4
+                                            input.form-control(type="password", id="tb-new-password-confirm", name="newPasswordConfirm")
+                                    .form-group
+                                        .col-sm-4.col-sm-offset-3
+                                            input.btn.btn-block.btn-primary(type="submit", id="tb-update-password" value="Update")
+                    #update-profile-picture.tab-pane.fade
+                        .matchheight
+                            .row
+                                #upload-picture
+                                    .form-group
+                                        p.font-md Please select image
+                                        label.btn.btn-primary.btn-md.btn-file(for="tb-avatar")
+                                            | Browse
+                                        input(type="file", id="tb-avatar" name="avatar" accept="image/*")
+                                        input.hidden(type="submit" id="tb-upload-image")
+                    #update-car.tab-pane.fade
+                        .matchheight
+                            #update-car-form.form-horizontal
+                                fieldset
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-manufacturer") Manufacturer
+                                        .col-sm-4
+                                            if currentUser.car.manufacturer !== undefined
+                                                input.form-control(type="text", id="tb-manufacturer", name="manufacturer", value=`${currentUser.car.manufacturer}`)
+                                            else
+                                                input.form-control(type="text", id="tb-manufacturer", name="manufacturer", placeholder="Manufacturer")
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-model") Model
+                                        .col-sm-4
+                                            if currentUser.car.model !== undefined
+                                                input.form-control(type="text", id="tb-model", name="model", value=`${currentUser.car.model}`)
+                                            else
+                                                input.form-control(type="text", id="tb-model", name="model", placeholder="Model")
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-seats") Seats
+                                        .col-sm-4
+                                            select.form-control(id="tb-seats" name="seats")
+                                                option 2
+                                                option 3
+                                                option 4
+                                                option 5
+                                                option 6
+                                                option 7
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-fuel-type") Fuel type
+                                        .col-sm-4
+                                            select.form-control(id="tb-fuel-type" name="fuelType")
+                                                option(value="", disabled, selected) Select fuel type
+                                                each fuelType in fuelTypes
+                                                    option #{fuelType}
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-transmission-type") Transmission
+                                        .col-sm-4
+                                            select.form-control(id="tb-transmission-type" name="transmissionType")
+                                                each transmissionType in transmissionTypes
+                                                    option #{transmissionType}
+                                    .form-group
+                                        label.col-sm-3.control-label(for="tb-registration-number") Registration number
+                                        .col-sm-4
+                                            if currentUser.car.registrationNumber !== undefined
+                                                input.form-control(type="text", id="tb-registration-number", name="registrationNumber", value=`${currentUser.car.registrationNumber}`)
+                                            else
+                                                input.form-control(type="text", id="tb-registration-number", name="registrationNumber", placeholder="Example: C2332EB")
+                                    .form-group
+                                        .col-sm-4.col-sm-offset-3
+                                            if currentUser.car.manufacturer
+                                                input.btn.btn-block.btn-primary(type="submit", id="tb-update-car" value="Update")
+                                            else
+                                                input.btn.btn-block.btn-primary(type="submit", id="tb-update-car", value="Add car")
+
+    script(src="/scripts/utils/requester.js")
+    script(src="/scripts/utils/notificator.js")
+    script(src="/scripts/utils/constants.js")
+    script(src="/scripts/utils/validator.js")
+    script(src="/scripts/user/upload-picture-ajax.js")
+    script(src="/scripts/rides/delete-ride-ajax.js")
+    script(src="/scripts/user/user-update-information-ajax.js")
+    script(src="/scripts/user/user-update-password-ajax.js")
+    script(src="/scripts/user/user-update-car-ajax.js")
+
+    script(type="text/javascript").
+        jQuery(function($){
+        $("#tb-avatar").change(function() {
+                $("#tb-upload-image").trigger("click");
+            });
+        });
+
+    script(type="text/javascript").
+        jQuery(function($){
+        $(".matchheight-title").matchHeight({byRow: false});
+        $(".matchheight").matchHeight({byRow: false});
+        });
+
+    script(type="text/javascript").
+        jQuery(function($){
+            let manualTransmission = $("#tb-transmission-type").children()[1];
+
+            let selectedOption = $(manualTransmission);
+
+            selectedOption.attr("selected", "selected");
+        })

@@ -1,0 +1,105 @@
+extends ../base
+
+block app-title
+        | User details
+
+block content
+    div.user-detailed-container
+        .row
+            .col-lg-12
+                .row.main-row
+                    .col-md-2.matchheight-title
+                        img.avatar-image(src=`/images/users-avatars/${user.avatar}` alt="No image!")
+                    .col-md-10.matchheight-title.bot-vert-align
+                        div
+                            .row
+                                h1.profile-username #{user.username}
+                            .row
+                                h2.profile-names #{user.firstName} #{user.lastName}
+                hr
+        .row
+            .col-lg-12
+                ul.nav.nav-tabs
+                    li.active
+                        a.tab-title(href="#information", data-toggle="tab", aria-expanded="true") Information
+                    li
+                        a.tab-title(href="#rides", data-toggle="tab", aria-expanded="false") Rides
+                    li
+                        a.tab-title(href="#car", data-toggle="tab", aria-expanded="false") Car
+                #my-tab-content.tab-content
+                    #information.tab-pane.fade.active.in
+                        .matchheight.detailed-information
+                            ul
+                                li
+                                    span First name:&nbsp
+                                    | #{user.firstName}
+                                li
+                                    span Last name:&nbsp
+                                    | #{user.lastName}
+                                li
+                                    span Email address:&nbsp
+                                    | #{user.email}
+                                li
+                                    span City:&nbsp
+                                    | #{user.city}
+                                li
+                                    span Contact information:&nbsp
+                                    | #{user.contact}
+                    #rides.tab-pane.fade
+                        .matchheight.detailed-information
+                            if rides.length > 0
+                            each ride in rides
+                                .row.ride-container
+                                        .col-lg-12
+                                            .row.main-row
+                                                .col-lg-3.font-smlg
+                                                        span #{ride.fromCity}
+                                                .col-lg-1.font-md
+                                                        span.glyphicon.glyphicon-chevron-right
+                                                .col-lg-3.font-smlg
+                                                        span #{ride.toCity}
+                                                .col-lg-4.font-smlg
+                                                        span #{moment(ride.dateOfTravel).format("lll")}
+                                            hr
+                                            .row.secondary-row
+                                                .col-lg-4.font-md
+                                                        span Available seats:
+                                                        span  #{ride.freePlaces}
+                                                .col-lg-3.font-md
+                                                        span Price:
+                                                        span  #{ride.price}
+                                                .col-lg-2.font-md
+                                                        a(href=`/rides/${ride.id}`) Details
+                            else
+                                ul
+                                    li
+                                        span No rides information for this user
+
+                    #car.tab-pane.fade
+                        .matchheight.detailed-information
+                            if user.car.manufacturer
+                                ul
+                                    li
+                                        span Manufacturer:&nbsp
+                                        | #{user.car.manufacturer}
+                                    li
+                                        span Model:&nbsp
+                                        | #{user.car.model}
+                                    li
+                                        span Seats:&nbsp
+                                        | #{user.car.seats}
+                                    li
+                                        span Fuel:&nbsp
+                                        | #{user.car.fuel}
+                                    li
+                                        span Registration number:&nbsp
+                                        | #{user.car.registrationNumber}
+                            else
+                                ul
+                                    li
+                                        span This user has no car
+
+    script(type="text/javascript").
+        jQuery(function($){
+        $(".matchheight").matchHeight({byRow: false});
+        });

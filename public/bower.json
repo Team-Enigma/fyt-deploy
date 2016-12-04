@@ -1,0 +1,22 @@
+{
+  "name": "team-enigma",
+  "homepage": "1.0.0",
+  "authors": [
+    "Anton Borisov",
+    "Kristina Barutska",
+    "Todor Enikov",
+    "Tsvetoslav Lazarov"
+  ],
+  "description": "bower.json file of team enigma",
+  "main": "app.js",
+  "keywords": [
+    "teamwork",
+    "nodejs",
+    "mongodb",
+    "express",
+    "pug"
+  ],
+  "license": "ISC",
+  "dependencies": {
+  }
+}
