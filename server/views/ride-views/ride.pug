@@ -31,7 +31,7 @@ block content
                             ul
                                 li
                                     span Driver:&nbsp
-                                    a(href=`/users/${ride.driver.username}`) #{ride.driver.username}
+                                    a(href=`/users/${ride.driver}`) #{ride.driver}
                                 li
                                     span Date of travel:&nbsp
                                     | #{moment(ride.dateOfTravel).format("lll")}
